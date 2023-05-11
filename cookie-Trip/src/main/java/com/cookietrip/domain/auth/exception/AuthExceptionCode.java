@@ -1,6 +1,5 @@
 package com.cookietrip.domain.auth.exception;
 
-import com.cookietrip.global.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -9,7 +8,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Getter
 public enum AuthExceptionCode
-        implements ExceptionCode {
+        implements com.cookietrip.global.exception.ExceptionCode {
 
     /**
      * JWT
@@ -25,9 +24,10 @@ public enum AuthExceptionCode
      * MEMBER
      * 100 ~ 199
      */
-    OAUTH_PROVIDER_MISMATCH(BAD_REQUEST, "AT-C-100", "일치하지 않는 로그인 제공자입니다."),
-    INVALID_MEMBER_ROLE(FORBIDDEN, "AT-C-101", "유효하지 않은 사용자 권한입니다."),
-    NOT_AUTHORIZATION_USER(NOT_FOUND, "AT-C-102", "인가된 사용자가 아닙니다."),
+    LOGIN_PROVIDER_MISMATCH(BAD_REQUEST, "AT-C-100", "일치하지 않는 로그인 제공자입니다."),
+    INVALID_LOGIN_PROVIDER(BAD_REQUEST, "AT-C-101", "유효하지 않은 로그인 제공자입니다."),
+    INVALID_MEMBER_ROLE(FORBIDDEN, "AT-C-102", "유효하지 않은 사용자 권한입니다."),
+    NOT_AUTHORIZATION_USER(NOT_FOUND, "AT-C-103", "인가된 사용자가 아닙니다."),
 
     /**
      * Common Exception
