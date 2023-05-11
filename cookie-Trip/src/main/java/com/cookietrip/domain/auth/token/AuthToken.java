@@ -115,7 +115,7 @@ public class AuthToken {
         try {
             getTokenClaims();
         } catch (TokenException e) {
-            if (e.getAuthExceptionCode() == EXPIRED_TOKEN) {
+            if (e.getExceptionCode() == EXPIRED_TOKEN) {
                 return e.getExpiredTokenClaims();
             }
 

@@ -1,29 +1,30 @@
 package com.cookietrip.domain.auth.exception;
 
+import com.cookietrip.global.exception.ExceptionCode;
 import io.jsonwebtoken.Claims;
 
 public class TokenException
         extends RuntimeException {
 
-    private final AuthExceptionCode authExceptionCode;
+    private final ExceptionCode exceptionCode;
     private Claims expiredTokenClaims;
 
-    public TokenException(AuthExceptionCode exceptionCode) {
+    public TokenException(ExceptionCode exceptionCode) {
         super(exceptionCode.getMessage());
-        this.authExceptionCode = exceptionCode;
+        this.exceptionCode = exceptionCode;
     }
 
     public TokenException(
-            AuthExceptionCode exceptionCode,
+            ExceptionCode exceptionCode,
             Claims expiredTokenClaims
     ) {
         super(exceptionCode.getMessage());
-        this.authExceptionCode = exceptionCode;
+        this.exceptionCode = exceptionCode;
         this.expiredTokenClaims = expiredTokenClaims;
     }
 
-    public AuthExceptionCode getAuthExceptionCode() {
-        return authExceptionCode;
+    public ExceptionCode getExceptionCode() {
+        return exceptionCode;
     }
     public Claims getExpiredTokenClaims() {
         return expiredTokenClaims;

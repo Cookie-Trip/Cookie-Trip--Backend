@@ -1,5 +1,6 @@
 package com.cookietrip.domain.auth.exception;
 
+import com.cookietrip.global.exception.ExceptionCode;
 import com.cookietrip.global.exception.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class AuthExceptionHandler {
     protected ResponseEntity<ExceptionResponse> handleTokenException(
             TokenException e
     ) {
-        AuthExceptionCode exceptionCode = e.getAuthExceptionCode();
+        ExceptionCode exceptionCode = e.getExceptionCode();
         log.error("{}", e.getMessage());
         return new ResponseEntity<>(
                 ExceptionResponse.of(exceptionCode, exceptionCode.getMessage()),
