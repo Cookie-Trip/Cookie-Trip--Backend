@@ -1,4 +1,4 @@
-package com.cookietrip.config.audit;
+package com.cookietrip.global.config.audit;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;

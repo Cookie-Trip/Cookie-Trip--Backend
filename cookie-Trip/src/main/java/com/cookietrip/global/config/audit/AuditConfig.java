@@ -1,4 +1,4 @@
-package com.cookietrip.config.audit;
+package com.cookietrip.global.config.audit;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
