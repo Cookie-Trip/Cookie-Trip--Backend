@@ -1,6 +1,7 @@
-package com.cookietrip.domain.entity;
+package com.cookietrip.domain.entity.Repository;
 
+import com.cookietrip.domain.entity.FeedReview;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface Feed_reviewRepository extends JpaRepository<Feed_review, Long> {
+public interface Feed_reviewRepository extends JpaRepository<FeedReview, Long> {
 }

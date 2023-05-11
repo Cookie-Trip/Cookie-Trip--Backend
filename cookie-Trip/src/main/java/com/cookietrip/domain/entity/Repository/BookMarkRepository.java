@@ -1,6 +1,7 @@
-package com.cookietrip.domain.entity;
+package com.cookietrip.domain.entity.Repository;
 
+import com.cookietrip.domain.entity.Bookmark;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
+public interface BookMarkRepository extends JpaRepository<Bookmark, Long> {
 }
