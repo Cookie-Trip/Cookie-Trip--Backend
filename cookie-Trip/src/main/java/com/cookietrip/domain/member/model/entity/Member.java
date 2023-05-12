@@ -31,7 +31,7 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
-    private LoginProvider loginProviderType;
+    private LoginProvider loginProvider;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
@@ -40,4 +40,30 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
     private MemberStatus status = MemberStatus.ACTIVE;
+
+    private Member(
+            String personalId,
+            String email,
+            String nickname,
+            LoginProvider loginProvider
+    ) {
+        this.personalId = personalId;
+        this.email = email;
+        this.nickname = nickname;
+        this.loginProvider = loginProvider;
+    }
+
+    public static Member of(
+            String personalId,
+            String email,
+            String nickname,
+            LoginProvider loginProviderType
+    ) {
+        return new Member(
+                personalId,
+                email,
+                nickname,
+                loginProviderType
+        );
+    }
 }
