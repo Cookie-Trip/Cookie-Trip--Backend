@@ -26,4 +26,19 @@ public class AuthExceptionHandler {
                 HttpStatus.valueOf(exceptionCode.getHttpStatus().value())
         );
     }
+
+    /**
+     * InvalidLoginProviderException handling (Custom Exception)
+     */
+    @ExceptionHandler(InvalidLoginProviderException.class)
+    protected ResponseEntity<ExceptionResponse> handleInvalidLoginProviderException(
+            InvalidLoginProviderException e
+    ) {
+        ExceptionCode exceptionCode = e.getExceptionCode();
+        log.error("{}", e.getMessage());
+        return new ResponseEntity<>(
+                ExceptionResponse.of(exceptionCode, exceptionCode.getMessage()),
+                HttpStatus.valueOf(exceptionCode.getHttpStatus().value())
+        );
+    }
 }
