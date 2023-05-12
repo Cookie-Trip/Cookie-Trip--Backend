@@ -18,3 +18,7 @@ spring:
     properties:
       hibernate.format_sql:
       hibernate.default_batch_fetch_size:
+
+# Image File Config
+image:
+  default-user-profile-image-url:
