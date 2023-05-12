@@ -5,8 +5,11 @@ import com.cookietrip.global.exception.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static com.cookietrip.domain.auth.exception.AuthExceptionCode.INTERNAL_AUTHENTICATION_SERVICE_EXCEPTION;
 
 @Slf4j
 @RestControllerAdvice
@@ -35,6 +38,21 @@ public class AuthExceptionHandler {
             InvalidLoginProviderException e
     ) {
         ExceptionCode exceptionCode = e.getExceptionCode();
+        log.error("{}", e.getMessage());
+        return new ResponseEntity<>(
+                ExceptionResponse.of(exceptionCode, exceptionCode.getMessage()),
+                HttpStatus.valueOf(exceptionCode.getHttpStatus().value())
+        );
+    }
+
+    /**
+     * InternalAuthenticationServiceException handling (Built-In Exception)
+     */
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    protected ResponseEntity<ExceptionResponse> handleInternalAuthenticationServiceException(
+            InternalAuthenticationServiceException e
+    ) {
+        ExceptionCode exceptionCode = INTERNAL_AUTHENTICATION_SERVICE_EXCEPTION;
         log.error("{}", e.getMessage());
         return new ResponseEntity<>(
                 ExceptionResponse.of(exceptionCode, exceptionCode.getMessage()),
