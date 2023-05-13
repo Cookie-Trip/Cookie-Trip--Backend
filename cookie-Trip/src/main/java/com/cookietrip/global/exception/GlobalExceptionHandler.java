@@ -25,8 +25,8 @@ public class GlobalExceptionHandler {
     ) {
         log.error("handle ResourceNotFoundException");
         return new ResponseEntity<>(
-                ExceptionResponse.of(e.getCode()),
-                HttpStatus.valueOf(e.getCode().getHttpStatus().value())
+                ExceptionResponse.of(e.getExceptionCode()),
+                HttpStatus.valueOf(e.getExceptionCode().getHttpStatus().value())
         );
     }
 
