@@ -46,6 +46,21 @@ public class AuthExceptionHandler {
     }
 
     /**
+     * OAuth2ProviderMisMatchException handling (Custom Exception)
+     */
+    @ExceptionHandler(OAuth2ProviderMisMatchException.class)
+    protected ResponseEntity<ExceptionResponse> handleOAuth2ProviderMisMatchException(
+            OAuth2ProviderMisMatchException e
+    ) {
+        ExceptionCode exceptionCode = e.getExceptionCode();
+        log.error("{}", e.getMessage());
+        return new ResponseEntity<>(
+                ExceptionResponse.of(exceptionCode, exceptionCode.getMessage()),
+                HttpStatus.valueOf(exceptionCode.getHttpStatus().value())
+        );
+    }
+
+    /**
      * InternalAuthenticationServiceException handling (Built-In Exception)
      */
     @ExceptionHandler(InternalAuthenticationServiceException.class)
