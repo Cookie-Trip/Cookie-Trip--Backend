@@ -29,6 +29,9 @@ public class Member extends BaseTimeEntity {
     @Column(length = 100, nullable = false)
     private String nickname;
 
+    @Column(length = 1000, nullable = false)
+    private String profileImageUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
     private LoginProvider loginProvider;
@@ -45,11 +48,13 @@ public class Member extends BaseTimeEntity {
             String personalId,
             String email,
             String nickname,
+            String profileImageUrl,
             LoginProvider loginProvider
     ) {
         this.personalId = personalId;
         this.email = email;
         this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
         this.loginProvider = loginProvider;
     }
 
@@ -57,12 +62,14 @@ public class Member extends BaseTimeEntity {
             String personalId,
             String email,
             String nickname,
+            String profileImageUrl,
             LoginProvider loginProviderType
     ) {
         return new Member(
                 personalId,
                 email,
                 nickname,
+                profileImageUrl,
                 loginProviderType
         );
     }
