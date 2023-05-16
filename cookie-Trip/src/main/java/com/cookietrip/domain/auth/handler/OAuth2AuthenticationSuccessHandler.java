@@ -41,9 +41,9 @@ public class OAuth2AuthenticationSuccessHandler
     private final List<String> authorizedRedirectUris;
     private final Integer cookieMaxAge;
 
-    @Value("${cookie.redirect-uri-param-cookie-name}")
+    @Value("${app.cookie.redirect-uri-param-cookie-name}")
     private String REDIRECT_URI_PARAM_COOKIE_NAME;
-    @Value("${cookie.refresh-token-cookie-name}")
+    @Value("${app.cookie.refresh-token-cookie-name}")
     private String REFRESH_TOKEN_COOKIE_NAME;
 
     @Override

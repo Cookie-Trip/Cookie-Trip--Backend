@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 public class OAuth2AuthorizationRequestBasedOnCookieRepository
         implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
-    @Value("${cookie.oauth2-authorization-request-cookie-name}")
+    @Value("${app.cookie.oauth2-authorization-request-cookie-name}")
     private String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME;
 
-    @Value("${cookie.redirect-uri-param-cookie-name}")
+    @Value("${app.cookie.redirect-uri-param-cookie-name}")
     private String REDIRECT_URI_PARAM_COOKIE_NAME;
 
-    @Value("${cookie.refresh-token-cookie-name}")
+    @Value("${app.cookie.refresh-token-cookie-name}")
     private String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
 
-    @Value("${cookie.cookie-expire-seconds}")
+    @Value("${app.cookie.cookie-expire-seconds}")
     private int COOKIE_EXPIRE_SECONDS;
 
     @Override

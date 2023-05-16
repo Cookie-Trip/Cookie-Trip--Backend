@@ -28,7 +28,7 @@ public class CustomOAuth2UserService
 
     private final MemberRepository memberRepository;
 
-    @Value("${image.default-user-profile-image-url}")
+    @Value("${app.image.default-user-profile-image-url}")
     private String defaultUserProfileImageUrl;
 
     @Override

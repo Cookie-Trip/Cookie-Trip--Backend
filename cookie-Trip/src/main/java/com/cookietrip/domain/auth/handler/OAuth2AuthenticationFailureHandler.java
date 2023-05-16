@@ -20,7 +20,7 @@ public class OAuth2AuthenticationFailureHandler
 
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
 
-    @Value("${cookie.redirect-uri-param-cookie-name}")
+    @Value("${app.cookie.redirect-uri-param-cookie-name}")
     private String REDIRECT_URI_PARAM_COOKIE_NAME;
 
     @Override

@@ -5,6 +5,7 @@ import com.cookietrip.domain.auth.service.TokenService;
 import com.cookietrip.domain.auth.token.AuthToken;
 import com.cookietrip.global.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,7 +25,9 @@ public class TokenAuthenticationFilter
     private final TokenService tokenService;
 
     private static final String EXCEPTION_ATTRIBUTE_NAME = "exceptionCode";
-    private static final String TOKEN_REISSUE_REQUEST_URI = "/api/auth/refresh";
+
+    @Value("${jwt.token-reissue-request-uri}")
+    private String TOKEN_REISSUE_REQUEST_URI;
 
     @Override
     protected void doFilterInternal(
