@@ -9,5 +9,4 @@ class CookieTripApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
