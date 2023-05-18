@@ -5,7 +5,6 @@ import com.cookietrip.domain.auth.service.TokenService;
 import com.cookietrip.domain.auth.token.AuthToken;
 import com.cookietrip.global.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
