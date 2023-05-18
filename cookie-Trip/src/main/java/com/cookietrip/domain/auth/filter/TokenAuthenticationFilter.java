@@ -26,8 +26,7 @@ public class TokenAuthenticationFilter
 
     private static final String EXCEPTION_ATTRIBUTE_NAME = "exceptionCode";
 
-    @Value("${jwt.token-reissue-request-uri}")
-    private String TOKEN_REISSUE_REQUEST_URI;
+    private static final String TOKEN_REISSUE_REQUEST_URI = "/api/v1/auth/refresh";
 
     @Override
     protected void doFilterInternal(
