@@ -83,7 +83,7 @@ public class AuthToken {
                 .setSubject(memberPersonalId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(tokenExpiry);
-        claims.put("roles", memberRoles);
+        claims.put("roles", roles);
 
         return Jwts.builder()
                 .setClaims(claims)
