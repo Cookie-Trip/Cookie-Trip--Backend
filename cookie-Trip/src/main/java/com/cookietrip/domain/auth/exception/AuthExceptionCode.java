@@ -19,6 +19,7 @@ public enum AuthExceptionCode
     NOT_EXPIRED_TOKEN(BAD_REQUEST, "AT-C-003", "만료되지 않은 토큰입니다."),
     REQUEST_TOKEN_NOT_FOUND(BAD_REQUEST, "AT-C-004", "요청에 토큰이 존재하지 않습니다."),
     INVALID_REFRESH_TOKEN(BAD_REQUEST, "AT-C-005", "유효하지 않은 리프레쉬 토큰입니다."),
+    UNTRUSTED_CREDENTIAL(UNAUTHORIZED, "AT-C-006", "신뢰할 수 없는 자격증명 입니다."),
 
     /**
      * MEMBER
@@ -29,6 +30,7 @@ public enum AuthExceptionCode
     INVALID_MEMBER_ROLE(FORBIDDEN, "AT-C-102", "유효하지 않은 사용자 권한입니다."),
     NOT_AUTHORIZATION_USER(NOT_FOUND, "AT-C-103", "인가된 사용자가 아닙니다."),
     INVALID_REDIRECT_URI(UNAUTHORIZED, "AT-C-104", "허용되지 않은 리다이렉션 URI 입니다."),
+
 
     /**
      * Common Exception
