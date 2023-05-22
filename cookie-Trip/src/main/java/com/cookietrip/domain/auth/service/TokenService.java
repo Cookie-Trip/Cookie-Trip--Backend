@@ -1,8 +1,13 @@
 package com.cookietrip.domain.auth.service;
 
+import com.cookietrip.domain.auth.exception.AuthExceptionCode;
+import com.cookietrip.domain.auth.exception.RefreshTokenNotFoundException;
+import com.cookietrip.domain.auth.exception.TokenException;
 import com.cookietrip.domain.auth.principal.UserPrincipal;
+import com.cookietrip.domain.auth.repository.RefreshTokenRepository;
 import com.cookietrip.domain.auth.token.AuthToken;
 import com.cookietrip.domain.auth.token.AuthTokenProvider;
+import com.cookietrip.domain.auth.token.RefreshToken;
 import com.cookietrip.domain.member.exception.MemberNotFoundException;
 import com.cookietrip.domain.member.model.entity.Member;
 import com.cookietrip.domain.member.repository.MemberRepository;
@@ -17,14 +22,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.cookietrip.domain.auth.exception.AuthExceptionCode.*;
 
 @RequiredArgsConstructor
 @Service
 public class TokenService {
 
-    private final MemberRepository memberRepository;
     private final AuthTokenProvider tokenProvider;
+    private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * Access Token 생성
@@ -93,5 +102,42 @@ public class TokenService {
         return Arrays.stream(memberRoles.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Refresh Token 확인 후 토큰 전체 재발급
+     */
+    @Transactional
+    public Map<String, String> reissueToken(
+            String expiredAccessToken,
+            String refreshToken
+    ) {
+
+        AuthToken authTokenOfAccessToken = createAuthTokenOfAccessToken(expiredAccessToken);
+        Claims expiredTokenClaims = authTokenOfAccessToken.getExpiredTokenClaims();
+        String memberPersonalId = expiredTokenClaims.getSubject();
+        Collection<? extends GrantedAuthority> memberRoles = getMemberAuthority(expiredTokenClaims.get("roles", String.class));
+
+        AuthToken authTokenOfRefreshToken = createAuthTokenOfRefreshToken(refreshToken);
+
+        // Refresh Token 검증
+        try {
+            authTokenOfRefreshToken.validate();
+        } catch (TokenException e) {
+            throw new TokenException(INVALID_REFRESH_TOKEN);
+        }
+
+        RefreshToken storedRefreshToken = refreshTokenRepository.findByMemberPersonalIdAndValue(memberPersonalId, refreshToken)
+                .orElseThrow(RefreshTokenNotFoundException::new);
+
+        AuthToken newAccessToken = createAccessToken(memberPersonalId, memberRoles);
+
+        AuthToken newRefreshToken = createRefreshToken(memberPersonalId, memberRoles);
+        storedRefreshToken.changeTokenValue(newRefreshToken.getValue());
+
+        return Map.of(
+                "accessToken", newAccessToken.getValue(),
+                "refreshToken", newRefreshToken.getValue()
+        );
     }
 }
