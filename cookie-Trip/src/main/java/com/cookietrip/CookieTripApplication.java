@@ -12,5 +12,4 @@ public class CookieTripApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CookieTripApplication.class, args);
 	}
-
 }
