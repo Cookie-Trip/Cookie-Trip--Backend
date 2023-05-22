@@ -3,6 +3,7 @@ package com.cookietrip.domain.auth.exception;
 import com.cookietrip.global.exception.ExceptionCode;
 import com.cookietrip.global.exception.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -28,10 +29,13 @@ public class CustomAuthenticationEntryPoint
 
         ExceptionCode exceptionCode = (ExceptionCode) request.getAttribute(EXCEPTION_ATTRIBUTE_NAME);
 
-        // 사용자 정의 예외의 Exception Code(Enum)가 넘어온 경우
         if (exceptionCode != null) {
             setResponse(response, exceptionCode);
-        } else {    // Error Message 만 넘어온 경우 범용 인증 예외 코드를 설정
+        } else if (authException.getClass() == InsufficientAuthenticationException.class){
+            authException.printStackTrace();
+           setResponse(response, UNTRUSTED_CREDENTIAL);
+        } else {
+            // Error Message 만 넘어온 경우 범용 인증 예외 코드를 설정
             log.error("Responding with unauthorized error. Message := {}", authException.getMessage());
             setResponse(response, AUTHENTICATION_ERROR);
         }
