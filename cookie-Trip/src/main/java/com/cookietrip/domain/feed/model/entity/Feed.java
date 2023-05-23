@@ -27,6 +27,12 @@ public class Feed
     @Column(length = 1000, nullable = false)
     private String placeLocation;
 
+    @Column(length = 50, nullable = false)
+    private String placePhoneNumber;
+
+    @Column(nullable = false)
+    private Double placeRating;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 100, nullable = false)
     private PlaceCategory placeCategory;
@@ -36,12 +42,16 @@ public class Feed
             String content,
             String placeName,
             String placeLocation,
+            String placePhoneNumber,
+            Double placeRating,
             PlaceCategory placeCategory
     ) {
         this.title = title;
         this.content = content;
         this.placeName = placeName;
         this.placeLocation = placeLocation;
+        this.placePhoneNumber = placePhoneNumber;
+        this.placeRating = placeRating;
         this.placeCategory = placeCategory;
     }
 
@@ -50,6 +60,8 @@ public class Feed
             String content,
             String placeName,
             String placeLocation,
+            String placePhoneNumber,
+            Double placeRating,
             PlaceCategory placeCategory
     ) {
         return new Feed(
@@ -57,6 +69,27 @@ public class Feed
                 content,
                 placeName,
                 placeLocation,
+                placePhoneNumber,
+                placeRating,
+                placeCategory
+        );
+    }
+
+    public static Feed of(
+            String title,
+            String content,
+            String placeName,
+            String placeLocation,
+            Double placeRating,
+            PlaceCategory placeCategory
+    ) {
+        return new Feed(
+                title,
+                content,
+                placeName,
+                placeLocation,
+                "NO_PHONE_NUMBER",
+                placeRating,
                 placeCategory
         );
     }
