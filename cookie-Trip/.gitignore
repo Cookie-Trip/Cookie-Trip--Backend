@@ -225,5 +225,6 @@ gradle-app.setting
 ### application.yml
 src/main/resources/application-dev.yml
 
-### test API
+### DEV & TEST API
 src/main/java/com/cookietrip/global/testapi/**
+src/main/java/com/cookietrip/dev
