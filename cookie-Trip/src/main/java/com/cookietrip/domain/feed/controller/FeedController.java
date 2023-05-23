@@ -41,7 +41,7 @@ public class FeedController {
                 OK.value(),
                 "성공적으로 상세 피드 정보를 조회하였습니다.",
                 FeedWithReviewsResponse.of(
-                        feedService.findFeed(feedId)
+                        feedService.getFeed(feedId)
                 )
         );
     }

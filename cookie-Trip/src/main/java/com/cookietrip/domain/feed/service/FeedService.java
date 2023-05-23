@@ -15,5 +15,5 @@ public interface FeedService {
     /**
      * 특정 피드를 리뷰와 함께 조회
      */
-    FeedWithReviewsDto findFeed(Long feedId);
+    FeedWithReviewsDto getFeed(Long feedId);
 }

@@ -35,7 +35,7 @@ public class FeedServiceImpl
     }
 
     @Override
-    public FeedWithReviewsDto findFeed(Long feedId) {
+    public FeedWithReviewsDto getFeed(Long feedId) {
         return feedRepository.findById(feedId)
                 .map(feed -> FeedWithReviewsDto.of(
                         feed,
