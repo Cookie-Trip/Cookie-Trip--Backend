@@ -1,8 +1,12 @@
 package com.cookietrip.domain.feed.Repository;
 
 import com.cookietrip.domain.feed.model.entity.Feed;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FeedRepository
-        extends JpaRepository<Feed, Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface FeedRepository {
+    List<Feed> findAllByLocation_Title(String placeLocation);
+
+    Optional<Feed> findById(Long feedId);
 }
