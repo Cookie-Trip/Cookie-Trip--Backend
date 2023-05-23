@@ -37,6 +37,9 @@ public class Feed
     @Column(length = 100, nullable = false)
     private PlaceCategory placeCategory;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private RegionalSearchKeyword regionalSearchKeyword;
+
     private Feed(
             String title,
             String content,
@@ -44,7 +47,8 @@ public class Feed
             String placeLocation,
             String placePhoneNumber,
             Double placeRating,
-            PlaceCategory placeCategory
+            PlaceCategory placeCategory,
+            RegionalSearchKeyword regionalSearchKeyword
     ) {
         this.title = title;
         this.content = content;
@@ -53,6 +57,7 @@ public class Feed
         this.placePhoneNumber = placePhoneNumber;
         this.placeRating = placeRating;
         this.placeCategory = placeCategory;
+        this.regionalSearchKeyword = regionalSearchKeyword;
     }
 
     public static Feed of(
@@ -62,7 +67,8 @@ public class Feed
             String placeLocation,
             String placePhoneNumber,
             Double placeRating,
-            PlaceCategory placeCategory
+            PlaceCategory placeCategory,
+            RegionalSearchKeyword regionalSearchKeyword
     ) {
         return new Feed(
                 title,
@@ -71,7 +77,8 @@ public class Feed
                 placeLocation,
                 placePhoneNumber,
                 placeRating,
-                placeCategory
+                placeCategory,
+                regionalSearchKeyword
         );
     }
 
@@ -81,7 +88,8 @@ public class Feed
             String placeName,
             String placeLocation,
             Double placeRating,
-            PlaceCategory placeCategory
+            PlaceCategory placeCategory,
+            RegionalSearchKeyword regionalSearchKeyword
     ) {
         return new Feed(
                 title,
@@ -90,7 +98,8 @@ public class Feed
                 placeLocation,
                 "NO_PHONE_NUMBER",
                 placeRating,
-                placeCategory
+                placeCategory,
+                regionalSearchKeyword
         );
     }
 }
