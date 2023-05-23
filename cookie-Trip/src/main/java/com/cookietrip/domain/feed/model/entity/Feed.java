@@ -38,7 +38,7 @@ public class Feed
     private PlaceCategory placeCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private RegionalSearchKeyword regionalSearchKeyword;
+    private Location location;
 
     private Feed(
             String title,
@@ -48,7 +48,7 @@ public class Feed
             String placePhoneNumber,
             Double placeRating,
             PlaceCategory placeCategory,
-            RegionalSearchKeyword regionalSearchKeyword
+            Location location
     ) {
         this.title = title;
         this.content = content;
@@ -57,7 +57,7 @@ public class Feed
         this.placePhoneNumber = placePhoneNumber;
         this.placeRating = placeRating;
         this.placeCategory = placeCategory;
-        this.regionalSearchKeyword = regionalSearchKeyword;
+        this.location = location;
     }
 
     public static Feed of(
@@ -68,7 +68,7 @@ public class Feed
             String placePhoneNumber,
             Double placeRating,
             PlaceCategory placeCategory,
-            RegionalSearchKeyword regionalSearchKeyword
+            Location location
     ) {
         return new Feed(
                 title,
@@ -78,7 +78,7 @@ public class Feed
                 placePhoneNumber,
                 placeRating,
                 placeCategory,
-                regionalSearchKeyword
+                location
         );
     }
 
@@ -89,7 +89,7 @@ public class Feed
             String placeLocation,
             Double placeRating,
             PlaceCategory placeCategory,
-            RegionalSearchKeyword regionalSearchKeyword
+            Location location
     ) {
         return new Feed(
                 title,
@@ -99,7 +99,7 @@ public class Feed
                 "NO_PHONE_NUMBER",
                 placeRating,
                 placeCategory,
-                regionalSearchKeyword
+                location
         );
     }
 }

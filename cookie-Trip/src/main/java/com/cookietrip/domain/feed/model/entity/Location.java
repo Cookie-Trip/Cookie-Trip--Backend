@@ -9,9 +9,9 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "regional_search_keyword")
+@Table(name = "location")
 @Entity
-public class RegionalSearchKeyword
+public class Location
         extends BaseTimeEntity {
 
     @Id
@@ -19,5 +19,13 @@ public class RegionalSearchKeyword
     private Long id;
 
     @Column(length = 500, nullable = false, unique = true)
-    private String keyword;
+    private String title;
+
+    private Location(String title) {
+        this.title = title;
+    }
+
+    public static Location of(String locationTitle) {
+        return new Location(locationTitle);
+    }
 }
