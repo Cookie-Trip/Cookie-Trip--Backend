@@ -1,4 +1,6 @@
-package com.cookietrip.domain.entity;
+package com.cookietrip.domain.feed.model.entity;
+import com.cookietrip.domain.feed.model.constant.PlaceCategory;
+import com.cookietrip.global.config.audit.BaseTimeEntity;
 import lombok.*;
 import javax.persistence.*;
 
@@ -6,7 +8,9 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "feed")
 @Entity
-public class Feed extends BaseTimeEntity {
+public class Feed
+        extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
