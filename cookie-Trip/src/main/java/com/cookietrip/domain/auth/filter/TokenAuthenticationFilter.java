@@ -5,7 +5,6 @@ import com.cookietrip.domain.auth.service.TokenService;
 import com.cookietrip.domain.auth.token.AuthToken;
 import com.cookietrip.global.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -54,10 +53,10 @@ public class TokenAuthenticationFilter
         }
 
         try {
-            if (authAccessToken.validate()) {
-                Authentication authentication = tokenService.getAuthentication(authAccessToken);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            tokenService.tokenValidate(authAccessToken);
+            SecurityContextHolder.getContext().setAuthentication(
+                    tokenService.getAuthentication(authAccessToken)
+            );
         } catch (TokenException e) {
             request.setAttribute(EXCEPTION_ATTRIBUTE_NAME, e.getExceptionCode());
         }

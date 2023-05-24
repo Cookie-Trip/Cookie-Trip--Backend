@@ -124,11 +124,4 @@ public class AuthToken {
 
         throw new TokenException(NOT_EXPIRED_TOKEN);
     }
-
-    /**
-     * Token 유효성 검증
-     */
-    public boolean validate() {
-        return getTokenClaims() != null;
-    }
 }

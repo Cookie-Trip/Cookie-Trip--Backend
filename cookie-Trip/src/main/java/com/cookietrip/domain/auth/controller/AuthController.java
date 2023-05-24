@@ -3,11 +3,13 @@ package com.cookietrip.domain.auth.controller;
 import com.cookietrip.domain.auth.dto.ReissueTokenResponse;
 import com.cookietrip.domain.auth.exception.TokenException;
 import com.cookietrip.domain.auth.service.TokenService;
+import com.cookietrip.global.response.CommonResult;
 import com.cookietrip.global.response.SingleResult;
 import com.cookietrip.global.util.CookieUtil;
 import com.cookietrip.global.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,6 +67,22 @@ public class AuthController {
                 OK.value(),
                 "성공적으로 토큰이 재발급되었습니다.",
                 ReissueTokenResponse.of(newTokens.get("accessToken"))
+        );
+    }
+
+    /**
+     * Logout
+     */
+    @DeleteMapping("/logout")
+    public CommonResult logout(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        tokenService.logout(request, response);
+
+        return CommonResult.of(
+                OK.value(),
+                "성공적으로 로그아웃되었습니다."
         );
     }
 }
