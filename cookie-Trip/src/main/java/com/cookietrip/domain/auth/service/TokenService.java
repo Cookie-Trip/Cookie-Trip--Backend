@@ -158,4 +158,21 @@ public class TokenService {
         if (!refreshTokenRepository.existsByMemberPersonalId(tokenClaims.getSubject()))
             throw new TokenException(LOGGED_OUT_TOKEN);
     }
+
+    /**
+     * Logout
+     */
+    @Transactional
+    public void logout(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        refreshTokenRepository.deleteAllByMemberPersonalId(
+                createAuthTokenOfAccessToken(
+                        HeaderUtil.getAccessToken(request)
+                ).getTokenClaims().getSubject()
+        );
+
+        CookieUtil.deleteCookie(request, response, refreshTokenCookieName);
+    }
 }
