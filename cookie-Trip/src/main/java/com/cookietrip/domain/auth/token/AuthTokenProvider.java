@@ -11,9 +11,9 @@ import java.util.Date;
 public class AuthTokenProvider {
 
     private final Key accessTokenSecretKey;
-    private final Date accessTokenExpiry;
+    private final long accessTokenExpiry;
     private final Key refreshTokenSecretKey;
-    private final Date refreshTokenExpiry;
+    private final long refreshTokenExpiry;
 
     public AuthTokenProvider(
             String accessTokenSecretKeyString,
@@ -22,9 +22,9 @@ public class AuthTokenProvider {
             long refreshTokenExpiry
     ) {
         this.accessTokenSecretKey = generateTokenKey(accessTokenSecretKeyString);
-        this.accessTokenExpiry = generateTokenExpiry(accessTokenExpiry);
+        this.accessTokenExpiry = accessTokenExpiry;
         this.refreshTokenSecretKey = generateTokenKey(refreshTokenSecretKeyString);
-        this.refreshTokenExpiry = generateTokenExpiry(refreshTokenExpiry);
+        this.refreshTokenExpiry = refreshTokenExpiry;
     }
 
     // token key 문자열을 Key Object 로 변환
@@ -49,7 +49,7 @@ public class AuthTokenProvider {
         return AuthToken.of(
                 memberPersonalId,
                 memberRoles,
-                accessTokenExpiry,
+                generateTokenExpiry(accessTokenExpiry),
                 accessTokenSecretKey
         );
     }
@@ -64,7 +64,7 @@ public class AuthTokenProvider {
         return AuthToken.of(
                 memberPersonalId,
                 memberRoles,
-                refreshTokenExpiry,
+                generateTokenExpiry(refreshTokenExpiry),
                 refreshTokenSecretKey
         );
     }
