@@ -1,6 +1,5 @@
 package com.cookietrip.domain.auth.service;
 
-import com.cookietrip.domain.auth.exception.AuthExceptionCode;
 import com.cookietrip.domain.auth.exception.RefreshTokenNotFoundException;
 import com.cookietrip.domain.auth.exception.TokenException;
 import com.cookietrip.domain.auth.principal.UserPrincipal;
@@ -25,7 +24,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.cookietrip.domain.auth.exception.AuthExceptionCode.*;
+import static com.cookietrip.domain.auth.exception.AuthExceptionCode.INVALID_REFRESH_TOKEN;
 
 @RequiredArgsConstructor
 @Service

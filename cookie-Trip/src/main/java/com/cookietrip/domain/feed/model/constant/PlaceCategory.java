@@ -1,4 +1,4 @@
-package com.cookietrip.domain.entity;
+package com.cookietrip.domain.feed.model.constant;
 
 public enum PlaceCategory {
     RESTAURANT,
