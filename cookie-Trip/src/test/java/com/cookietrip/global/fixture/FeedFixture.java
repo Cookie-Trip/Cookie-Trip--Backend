@@ -210,6 +210,9 @@ public class FeedFixture {
             )
     );
 
+    /**
+     * Feed
+     */
     public static List<Feed> getFeeds() {
         return FEEDS;
     }
@@ -231,24 +234,31 @@ public class FeedFixture {
                 .get();
     }
 
+    /**
+     * FeedDto
+     */
     public static FeedDto getFeedDto() {
-        return FeedDto.of(FEEDS.get(0), getFeedImageDtos(FEEDS.get(0)));
+        return FeedDto.of(FEEDS.get(0), getFeedImageDtos());
     }
 
     public static List<FeedDto> getFeedDtos() {
         return FEEDS
                 .stream()
-                .map(feed -> FeedDto.of(feed, getFeedImageDtos(feed)))
+                .map(feed -> FeedDto.of(feed, getFeedImageDtos()))
                 .toList();
     }
 
-    public static List<FeedReviewDto> getFeedReviewDtos() {
-        return FEED_REVIEWS
+    public static List<FeedDto> getFeedDtosByLocation(String location) {
+        return FEEDS
                 .stream()
-                .map(FeedReviewDto::fromEntity)
+                .filter(feed -> feed.getLocation().getTitle().equals(location))
+                .map(feed -> FeedDto.of(feed, getFeedImageDtos()))
                 .toList();
     }
 
+    /**
+     * FeedReview
+     */
     public static List<FeedReview> getFeedReviewsByFeed(Feed feed) {
         return FEED_REVIEWS
                 .stream()
@@ -256,6 +266,27 @@ public class FeedFixture {
                 .toList();
     }
 
+    /**
+     * FeedReviewDto
+     */
+    public static List<FeedReviewDto> getFeedReviewDtos() {
+        return FEED_REVIEWS
+                .stream()
+                .map(FeedReviewDto::fromEntity)
+                .toList();
+    }
+
+    public static List<FeedReviewDto> getFeedReviewDtosByFeed(Feed feed) {
+        return FEED_REVIEWS
+                .stream()
+                .filter(feedReview -> feedReview.getFeed().equals(feed))
+                .map(FeedReviewDto::fromEntity)
+                .toList();
+    }
+
+    /**
+     * FeedImage
+     */
     public static List<FeedImage> getFeedImagesByFeed(Feed feed) {
         return FEED_IMAGES
                 .stream()
@@ -263,6 +294,9 @@ public class FeedFixture {
                 .toList();
     }
 
+    /**
+     * FeedImageDto
+     */
     public static List<FeedImageDto> getFeedImageDtos() {
         return FEED_IMAGES
                 .stream()
@@ -270,14 +304,18 @@ public class FeedFixture {
                 .toList();
     }
 
-    public static List<FeedImageDto> getFeedImageDtos(Feed feed) {
+    public static List<FeedImageDto> getFeedImageDtosByFeed(Feed feed) {
         return getFeedImagesByFeed(feed)
                 .stream()
                 .map(FeedImageDto::fromEntity)
                 .toList();
     }
 
-    public static FeedWithReviewsDto getFeedWithReviewDto() {
-        return FeedWithReviewsDto.of(FEEDS.get(0), getFeedImageDtos(), getFeedReviewDtos());
+    /**
+     * FeedWithReviewsDto
+     */
+    public static FeedWithReviewsDto getFeedWithReviewDtoByFeedId(Long feedId) {
+        Feed feed = getFeedById(feedId);
+        return FeedWithReviewsDto.of(feed, getFeedImageDtosByFeed(feed), getFeedReviewDtosByFeed(feed));
     }
 }
