@@ -10,8 +10,11 @@ import com.cookietrip.domain.auth.token.RefreshToken;
 import com.cookietrip.domain.member.exception.MemberNotFoundException;
 import com.cookietrip.domain.member.model.entity.Member;
 import com.cookietrip.domain.member.repository.MemberRepository;
+import com.cookietrip.global.util.CookieUtil;
+import com.cookietrip.global.util.HeaderUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,12 +22,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.cookietrip.domain.auth.exception.AuthExceptionCode.INVALID_REFRESH_TOKEN;
+import static com.cookietrip.domain.auth.exception.AuthExceptionCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -33,6 +38,9 @@ public class TokenService {
     private final AuthTokenProvider tokenProvider;
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    @Value("${app.cookie.refresh-token-cookie-name}")
+    private String refreshTokenCookieName;
 
     /**
      * Access Token 생성
@@ -71,10 +79,9 @@ public class TokenService {
     /**
      * 인가된 사용자 인증 정보 조회
      */
-    @Transactional(readOnly = true)
     public Authentication getAuthentication(AuthToken accessToken) {
         // access token 검증
-        accessToken.validate();
+        tokenValidate(accessToken);
 
         // access token claims 조회
         Claims claims = accessToken.getTokenClaims();
@@ -121,7 +128,7 @@ public class TokenService {
 
         // Refresh Token 검증
         try {
-            authTokenOfRefreshToken.validate();
+            tokenValidate(authTokenOfRefreshToken);
         } catch (TokenException e) {
             throw new TokenException(INVALID_REFRESH_TOKEN);
         }
@@ -138,5 +145,17 @@ public class TokenService {
                 "accessToken", newAccessToken.getValue(),
                 "refreshToken", newRefreshToken.getValue()
         );
+    }
+
+    /**
+     * Token 유효성 검증
+     */
+    public void tokenValidate(AuthToken token) {
+        Claims tokenClaims = token.getTokenClaims();
+        if (tokenClaims == null)
+            throw new TokenException(INVALID_TOKEN);
+
+        if (!refreshTokenRepository.existsByMemberPersonalId(tokenClaims.getSubject()))
+            throw new TokenException(LOGGED_OUT_TOKEN);
     }
 }
