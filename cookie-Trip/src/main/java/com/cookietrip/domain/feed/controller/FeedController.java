@@ -4,7 +4,6 @@ import com.cookietrip.domain.feed.dto.response.FeedResponse;
 import com.cookietrip.domain.feed.dto.response.FeedWithReviewsResponse;
 import com.cookietrip.domain.feed.service.FeedService;
 import com.cookietrip.global.response.ListResult;
-import com.cookietrip.global.response.ResponseService;
 import com.cookietrip.global.response.SingleResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +16,12 @@ import static org.springframework.http.HttpStatus.OK;
 public class FeedController {
 
     private final FeedService feedService;
-    private final ResponseService responseService;
 
     @GetMapping()
     public ListResult<FeedResponse> getFeeds(
             @RequestParam("search-location") final String searchLocation
     ) {
-        return responseService.getListResult(
+        return ListResult.of(
                 OK.value(),
                 "성공적으로 피드리스트를 조회하였습니다.",
                 feedService.findFeedsByLocation(searchLocation)
@@ -37,7 +35,7 @@ public class FeedController {
     public SingleResult<FeedWithReviewsResponse> getFeed(
             @PathVariable("feed-id") Long feedId
     ) {
-        return responseService.getSingleResult(
+        return SingleResult.of(
                 OK.value(),
                 "성공적으로 상세 피드 정보를 조회하였습니다.",
                 FeedWithReviewsResponse.of(

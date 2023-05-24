@@ -3,7 +3,6 @@ package com.cookietrip.domain.auth.controller;
 import com.cookietrip.domain.auth.dto.ReissueTokenResponse;
 import com.cookietrip.domain.auth.exception.TokenException;
 import com.cookietrip.domain.auth.service.TokenService;
-import com.cookietrip.global.response.ResponseService;
 import com.cookietrip.global.response.SingleResult;
 import com.cookietrip.global.util.CookieUtil;
 import com.cookietrip.global.util.HeaderUtil;
@@ -27,7 +26,6 @@ import static org.springframework.http.HttpStatus.OK;
 public class AuthController {
 
     private final TokenService tokenService;
-    private final ResponseService responseService;
 
     @Value("${app.jwt.expiry.refresh-token-expiry}")
     private long refreshTokenExpiry;
@@ -63,7 +61,7 @@ public class AuthController {
                 cookieMaxAge
         );
 
-        return responseService.getSingleResult(
+        return SingleResult.of(
                 OK.value(),
                 "성공적으로 토큰이 재발급되었습니다.",
                 ReissueTokenResponse.of(newTokens.get("accessToken"))
