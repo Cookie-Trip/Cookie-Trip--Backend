@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @RequiredArgsConstructor
@@ -55,6 +56,9 @@ public class SecurityConfig {
 
                 // Auth API
                 .antMatchers(POST, "/api/v1/auth/refresh").permitAll()
+
+                // Spring REST Docs
+                .antMatchers(GET, "/docs/**").permitAll()
 
                 .anyRequest().authenticated();
 
