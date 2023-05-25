@@ -8,6 +8,7 @@ import com.cookietrip.global.fixture.FeedFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -19,12 +20,17 @@ import static com.cookietrip.domain.feed.exception.FeedExceptionCode.FEED_NOT_FO
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("[API Test] - Feed")
+@AutoConfigureRestDocs
 @WithMockUser("tester")
 @WebMvcTest(FeedController.class)
 class FeedControllerTest {
@@ -65,7 +71,14 @@ class FeedControllerTest {
                 .andExpect(jsonPath("$.data[0].searchLocation").value(feedDtosByLocation.get(0).searchLocation()))
                 .andExpect(jsonPath("$.data[0].feedImages").isNotEmpty())
                 .andExpect(jsonPath("$.data[0].feedImages[0].imageUrl").value(feedDtosByLocation.get(0).placeImages().get(0).imageUrl()))
-                .andDo(print());
+                .andDo(print())
+                .andDo(document("feed/getFeeds",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("search-location").description("사용자의 현재 위치 ex) \"부산시 금정구 남산동\"")
+                        )
+                ));
 
         verify(feedService).findFeedsByLocation(searchLocation);
     }
@@ -82,7 +95,7 @@ class FeedControllerTest {
 
         // When & Then
         mvc.perform(
-                        get(BASIC_URL + "/" + feedId)
+                        get(BASIC_URL + "/{feedId}", feedId)
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
@@ -97,7 +110,11 @@ class FeedControllerTest {
                 .andExpect(jsonPath("$.data.placeCategory").value(serviceResult.placeCategory().name()))
                 .andExpect(jsonPath("$.data.searchLocation").value(serviceResult.searchLocation()))
                 .andExpect(jsonPath("$.data.placeImages[0].imageUrl").value(serviceResult.placeImages().get(0).imageUrl()))
-                .andDo(print());
+                .andDo(print())
+                .andDo(document("feed/getFeed",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
 
         verify(feedService).getFeed(feedId);
     }
