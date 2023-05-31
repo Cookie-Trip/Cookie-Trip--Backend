@@ -8,6 +8,7 @@ import java.util.List;
 public record FeedResponse(
         Long feedId,
         String feedTitle,
+        String placeName,
         String searchLocation,
         List<FeedImageDto> feedImages
 ) {
@@ -15,6 +16,7 @@ public record FeedResponse(
         return new FeedResponse(
                 feedDto.id(),
                 feedDto.title(),
+                feedDto.placeName(),
                 feedDto.searchLocation(),
                 feedDto.placeImages()
         );
